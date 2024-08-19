@@ -21,10 +21,10 @@ const RestaurantDetailPage = () => {
 
   useEffect(() => {
     fetchRestaurantData();
-  }, [id, setSelectedRestaurant]);
+  }, [id, setSelectedRestaurant, fetchRestaurantData]);
 
   const handleReviewSubmit = async () => {
-    await fetchRestaurantData(); 
+    await fetchRestaurantData(); // Fetch data again to update reviews
   };
 
   return (
