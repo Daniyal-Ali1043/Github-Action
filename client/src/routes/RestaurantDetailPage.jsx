@@ -24,7 +24,7 @@ const RestaurantDetailPage = () => {
   }, [id, setSelectedRestaurant]);
 
   const handleReviewSubmit = async () => {
-    await fetchRestaurantData(); // Fetch data again to update reviews
+    await fetchRestaurantData(); 
   };
 
   return (
