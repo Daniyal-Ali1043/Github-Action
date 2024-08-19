@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
@@ -10,18 +10,18 @@ const RestaurantDetailPage = () => {
   const { id } = useParams();
   const { selectedRestaurant, setSelectedRestaurant } = useContext(RestaurantsContext);
 
-  const fetchRestaurantData = async () => {
+  const fetchRestaurantData = useCallback(async () => {
     try {
       const response = await RestaurantFinder.get(`/${id}`);
       setSelectedRestaurant(response.data.data);
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [id, setSelectedRestaurant]);
 
   useEffect(() => {
     fetchRestaurantData();
-  }, [id, setSelectedRestaurant, fetchRestaurantData]);
+  }, [fetchRestaurantData]);
 
   const handleReviewSubmit = async () => {
     await fetchRestaurantData(); // Fetch data again to update reviews
