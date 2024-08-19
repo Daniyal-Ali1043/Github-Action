@@ -25,7 +25,6 @@ jobs:
       run: npm install
       working-directory: server
 
-
-    - name: Build backend
-      run: npm run build
+    - name: Start backend
+      run: npm start
       working-directory: server
