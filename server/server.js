@@ -11,12 +11,6 @@ app.use(morgan('dev'));
 
 const port = process.env.PORT || 3002;
 
-app.get("/api/v1/health", (req, res) => {
-    res.status(200).json({
-        status: "success",
-        message: "Server is running smoothly"
-    });
-});
 
 app.get("/api/v1/restaurants", async (req, res) => {
     try {
