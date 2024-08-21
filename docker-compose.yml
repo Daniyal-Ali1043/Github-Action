@@ -15,7 +15,7 @@ services:
   server:
     build: ./server
     ports:
-      - "3000:3000"
+      - "3002:3000"
     environment:
       DATABASE_URL: postgres://postgres:5089@db:5432/yelp  
     depends_on:
