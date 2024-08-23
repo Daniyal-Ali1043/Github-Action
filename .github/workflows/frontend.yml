@@ -33,11 +33,14 @@ jobs:
     - name: SSH into EC2 and deploy frontend
       uses: appleboy/ssh-action@v0.1.2
       with:
-        host: ec2-52-66-199-220.ap-south-1.compute.amazonaws.com
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22    
+        host: ec2-52-66-199-220.ap-south-1.compute.amazonaws.com 
+        username: ubuntu 
+        key: ${{ secrets.EC2_SSH_KEY }} 
+        port: 22
         script: |
-          cd ~/Github-Action-Frontend
+          cd ~/Github-Action
+          git pull origin main
           docker-compose down
+          docker-compose build
           docker-compose up -d
+
