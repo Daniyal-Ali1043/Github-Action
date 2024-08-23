@@ -42,7 +42,7 @@ jobs:
       with:
         host: ec2-52-66-199-220.ap-south-1.compute.amazonaws.com 
         username: ubuntu 
-        key: ${{ secrets.EC2_SSH_KEY }} 
+        key: ${{ secrets.FRONTEND}} 
         port: 22
         script: |
           cd ~/Github-Action
