@@ -29,15 +29,14 @@ jobs:
       run: docker build -t frontend-app:latest .
       working-directory: client
 
-    # Remove the steps related to Docker Hub login and push
 
     - name: SSH into EC2 and deploy frontend
       uses: appleboy/ssh-action@v0.1.2
       with:
         host: ec2-52-66-199-220.ap-south-1.compute.amazonaws.com
         username: ubuntu
-        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        port: 22
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22    
         script: |
           cd ~/Github-Action-Frontend
           docker-compose down
