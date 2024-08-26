@@ -37,16 +37,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: SSH into EC2 and deploy frontend
-      uses: appleboy/ssh-action@master
-      with:
-        host: ec2-52-66-199-220.ap-south-1.compute.amazonaws.com 
-        username: ubuntu 
-        key: ${{ secrets.EC2_SSH_KEY }}  
-        port: 22
-        script: |
-          cd ~/Github-Action
-          git pull origin main
-          docker-compose down client
-          docker-compose build client
-          docker-compose up -d client
+    - name: SSH into EC2 - Pull latest code
+      run: |
+        ssh -i "12345.pem" ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && git pull origin main"
+
+    - name: SSH into EC2 - Stop running containers
+      run: |
+        ssh -i "12345.pem" ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose down"
+
+    - name: SSH into EC2 - Build Docker images
+      run: |
+        ssh -i "12345.pem" ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose build client"
+
+    - name: SSH into EC2 - Start containers
+      run: |
+        ssh -i "12345.pem" ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose up -d client"
