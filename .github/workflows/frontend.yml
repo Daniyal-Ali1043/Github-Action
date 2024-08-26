@@ -37,21 +37,24 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Decode PEM file from secret
+      run: echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
+
     - name: Set file permissions for SSH key
-      run: chmod 400 ~/Downloads/12345.pem
+      run: chmod 400 ec2_key.pem
 
     - name: SSH into EC2 - Pull latest code
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/Downloads/12345.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && git pull origin main"
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && git pull origin main"
 
     - name: SSH into EC2 - Stop running containers
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/Downloads/12345.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose down"
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose down"
 
     - name: SSH into EC2 - Build Docker images
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/Downloads/12345.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose build client"
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose build client"
 
     - name: SSH into EC2 - Start containers
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/Downloads/12345.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose up -d client"
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@ec2-52-66-199-220.ap-south-1.compute.amazonaws.com "cd ~/Github-Action && docker-compose up -d client"
